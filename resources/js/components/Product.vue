@@ -9,28 +9,37 @@
           <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
               <div class="col-md-6">
-                <carousel :items-to-show="1.0">
-                  <slide v-for="image in getProduct.img" :key="image">
-                    <img :src="getImgUrl(image)" alt="" />
-                  </slide>
-                  -
-                  <template #addons>
-                    <navigation />
-                    <pagination />
-                  </template>
-                </carousel>
+                <div class="anim-step6-left">
+                  <carousel :items-to-show="1.0">
+                    <slide v-for="image in getProduct.img" :key="image">
+                      <img :src="getImgUrl(image)" alt="" />
+                    </slide>
+                    -
+                    <template #addons>
+                      <navigation />
+                      <pagination />
+                    </template>
+                  </carousel>
+                </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-1">
-                  <strong class="p-2">{{ getProduct.model }}</strong>
+                  <h5 class="p-2 anim-step2-right">{{ getProduct.model }}</h5>
                 </div>
-                <h1 class="display-5 fw-bolder">{{ getProduct.name }}</h1>
+                <h1 class="display-5 fw-bolder anim-step1-right">
+                  {{ getProduct.name }}
+                </h1>
                 <div class="fs-5 mb-5">
-                  <span class="p-2">{{prices(getProduct.price)}}</span>
+                  <p class="p-2 anim-step3-right">
+                    <!-- {{ prices(getProduct.price) }}&ensp;$  -->
+                      {{ tweened.toFixed(0) }}&ensp;$ 
+                  </p>
                   <span class="text-decoration-line-through"></span>
-                  <p class="m-1">{{ getProduct.discount }}&ensp;%</p>
+                  <p class="m-1 anim-step4-right">
+                    {{ getProduct.discount }}&ensp;%
+                  </p>
                 </div>
-                <p class="lead">
+                <p class="lead anim-step5-right">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Praesentium at dolorem quidem modi. Nam sequi consequatur
                   obcaecati excepturi alias magni, accusamus eius blanditiis
@@ -68,7 +77,7 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import Loader from "./Loader";
 import Loadertwo from "./Loadertwo";
 import "vue-inner-image-zoom/lib/vue-inner-image-zoom.css";
-
+import gsap from "gsap";
 
 export default {
   data() {
@@ -77,7 +86,9 @@ export default {
       _id: this.$route.params.id,
       setInt: null,
       priceProduct: [],
-      myprice:0
+      myprice: 0,
+       tweened: 0,
+       number:750
       // getProduct:[]
     };
   },
@@ -88,86 +99,109 @@ export default {
     Navigation,
     Loader,
     Loadertwo,
-
   },
   methods: {
-   
     //  ...mapActions(['showProduct']),
     getImgUrl(img) {
       return window.atob(img);
     },
-    addCart(event) {
-        
-    }, 
-    prices(price){
-      console.log(price++)
-      return price
-    }
-     // numberAnim(arg) {
-    
-      //   this.$store.dispatch('intervalNum',arg)
-         //var inter = setInterval(() => {                
-          //            this.number++;
-          //            if (this.number > arg) {
-          //              clearInterval(inter)
-          //              console.log(inter)
-          //              return;
-          //            }                   
-          // }, 1000);
-        //  return  this.number;
+    addCart(event) {},
+    prices(price) {
+         return price;
+     },
+    // numberAnim(arg) {
 
-      // var inter;
-      // if (this.number < arg) { 
-      //         inter = setInterval(() => {                
-      //                this.number++;       
-      //        }, 200);
-      //  } else{
-      //     clearInterval(inter)
-      //  }
-        // return  this.number;
-   
-  //  },
+    //   this.$store.dispatch('intervalNum',arg)
+    //var inter = setInterval(() => {
+    //            this.number++;
+    //            if (this.number > arg) {
+    //              clearInterval(inter)
+    //              console.log(inter)
+    //              return;
+    //            }
+    // }, 1000);
+    //  return  this.number;
+
+    // var inter;
+    // if (this.number < arg) {
+    //         inter = setInterval(() => {
+    //                this.number++;
+    //        }, 200);
+    //  } else{
+    //     clearInterval(inter)
+    //  }
+    // return  this.number;
+
+    //  },
   },
   computed: {
-    ...mapGetters(["getProduct"]),     
+    ...mapGetters(["getProduct"]),
   },
-  beforeCreate() {
-    
+  beforeCreate() {},
+  created() {
+    this.$store.dispatch("showProduct", this._id);
   },
-  created() {     
-     this.$store.dispatch("showProduct", this._id);
-  },
-  beforeMount() {
-    
-  },
-  mounted() {  
-     
-    // this.setInt = setInterval(() => {                
-    //                  this.number++; 
-    //                  if (this.number>10) {
-    //                        clearInterval(this.setInt)
-    //                   }
-                     
-    //                  console.log(this.number) 
-                                                    
-    //       }, 1000);
+  beforeMount() {},
+  mounted() {
+    const animStep1 = ".anim-step1-right";
+    const animStep2 = ".anim-step2-right";
+    const animStep3 = ".anim-step3-right";
+    const animStep4 = ".anim-step4-right";
+    const animStep5 = ".anim-step5-right";
+    const animStep6 = ".anim-step6-left";
 
-          
-          
+    let tl = gsap.timeline();
+    tl.to(animStep6, { startAt: { x: -350, opacity: 0 } });
+  
+    tl.from(
+      animStep1,
+      { opacity: 0.2, x: 820, duration: 2.5, scale: 0.5 },
+      "right"
+    );
+    tl.to(animStep1, { opacity: 1, duration: 1 });
+    tl.from(
+      animStep2,
+      { opacity: 0.2, x: 620, duration: 2.5, scale: 0.5 },
+      "right"
+    );
+    tl.to(animStep2, { opacity: 1, duration: 1 });
+    tl.to(this, { duration: 2, tweened: this.number || 0 });
+   
+    tl.from(
+      animStep3,
+      { opacity: 0.2, x: 820, duration: 2.5, scale: 0.5 },
+      "right"
+    );
+
+
+    tl.from(animStep4, { opacity: 0.2, x: 620, duration: 2.5 }, "right");
+
+    tl.set(animStep5, { opacity: 0, duration: 1 });
+    tl.from(
+      animStep5,
+      { opacity: 0.2, x: 820, duration: 2.5, scale: 0.5 },
+      "right"
+    );
+    tl.to(animStep5, { opacity: 1, duration: 1 });
+
+    tl.to(animStep6, { opacity: 1, x: 0, duration: 1.5 }, "right"); 
+         
+    
+
+
+
   },
   unmounted() {
     this.$store.getters.removeCache;
   },
   updated() {
     this.loadder = "display:none";
- 
-  
-  },
-  beforeRouteEnter(to, from, next) {
-    if (!window.Laravel.isLoggedin) {
-      this.$router.go({ name: "login" });
-    }
-    next();
   },
 };
 </script>
+<style  scoped>
+/* .anim-step1-right{
+      position: relative;
+  
+  } */
+</style>

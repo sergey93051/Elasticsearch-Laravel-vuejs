@@ -118,22 +118,12 @@ export default {
                             }
                         }).catch(error => {
                             console.error(error)
-                                 if (error.response.status === 422) {
-                                    
-                                     console.log( error.response.messages)  
-                                        
-                                 }
-                                   
+                                 if (error.response.status === 422) {                                   
+                                     console.log( error.response.messages)                                       
+                                 }                                   
                         });
-                });
-           
+                });           
         }
-    },
-    beforeRouteEnter(to, from, next) {
-        if (window.Laravel.isLoggedin) {
-            return next('home');
-        }
-        next();
-    }
+    }, 
 }
 </script>

@@ -46,11 +46,11 @@ class LoginController extends Controller
     }
 
     public function authenticatesUsers(RequestsUsers $request)
-    {    
-       
+    {  
+  
         $this->attemptAuth($request);  
-
-        return response(200);
+       
+         return response(200);
     }
 
 

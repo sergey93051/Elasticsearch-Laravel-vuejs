@@ -32,7 +32,7 @@
     <div class="row m-3" v-if="searchResult">
       <div
         class="col-md-8 col-lg-6 col-xl-4"
-        v-for="(item, index) in searchResult"
+        v-for="(item) in searchResult"
         :key="item.id"
       >
         <div class="card m-md-2" style="border-radius: 15px">
@@ -152,23 +152,22 @@ export default {
       countCartProd:0
     };
   },
-  mounted() {
-  
+  async mounted() {
+
   },
-  created() {
-    if (window.Laravel.user) {
-      this.name = window.Laravel.user.name;
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    if (!window.Laravel.isLoggedin) {
-           this.$router.go({ name: "login" });
-    }
-    next();
-  },
+ async created() {
+
+      // await this.$store.dispatch('auth');   
+      
+    
+    // if (window.Laravel.user) {
+    //   this.name = window.Laravel.user.name;
+    // }
+  }, 
   methods: {
-       ...mapActions(['setToCart']),    
-       addCart(id,event){         
+       ...mapActions(['setToCart']),
+       
+        addCart(id,event){         
         this.setToCart({
              "searchResult":this.searchResult,
              "id":id
@@ -177,6 +176,7 @@ export default {
         this.$emit("hope", this.$store.getters.getCartsCount);       
     },
     elasticBtn() {
+          
       this.$axios.get("/sanctum/csrf-cookie").then((response) => {
         this.$axios
           .post("api/elastic/search", {

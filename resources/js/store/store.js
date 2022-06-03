@@ -4,6 +4,9 @@ import elasicProduct from "./modules/elasicProduct"
 import validation from "./modules/validation"
 import products from  "./modules/product"
 import cart from "./modules/cart"
+import auth from "./modules/auth"
+
+
 
 export default new Vuex.Store({
 
@@ -12,6 +15,7 @@ export default new Vuex.Store({
         elasicProduct,
         validation,
         products,
-        cart
+        cart,
+        auth
      }
 })

@@ -3,7 +3,7 @@
     <div class="text-center" style="margin: 20px 0px 20px 0px">
       <span class="text-secondary"></span>
     </div>
-      <Navbar :name="cartCount"  />
+      <Navbar :isLogged="sessionAuth"  />
     <br />     
   </div> 
 
@@ -15,14 +15,14 @@ export default {
 
  data(){
    return {
-        cartCount:1
+        sessionAuth:false
    }
  },
  components:{
        Navbar
  },
- mounted() {
-    
+ created() {
+     this.sessionAuth = JSON.parse(sessionStorage.getItem('isAuth'))
  },
  
 };

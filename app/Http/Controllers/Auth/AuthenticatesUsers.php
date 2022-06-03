@@ -14,6 +14,7 @@ trait AuthenticatesUsers{
         'password' => $request->password,
        ];
 
+    
     if (Auth::attempt($credentials)) {
        
         $request->session()->regenerate();  
@@ -30,7 +31,7 @@ trait AuthenticatesUsers{
         'success' => $success,
         'message' => $message,
     ];   
-    
+
     return $response;
 }
 

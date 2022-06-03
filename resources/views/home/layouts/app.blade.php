@@ -12,7 +12,7 @@
 </head>
 <body>
     {{-- @dd(Auth::user()) --}}
-    @if (Auth::check())
+    {{-- @if (Auth::check())
     <script> 
         window.Laravel = {!!json_encode([
             'isLoggedin' => true,
@@ -25,7 +25,7 @@
             'isLoggedin' => false
         ])!!}
     </script>
-@endif
+@endif --}}
 
 <div id="app">
 </div>

@@ -27,6 +27,14 @@ class HomeController extends Controller
          return response(200);
     }
 
+    public function checkLogin(){
+         if (Auth::check()) {
+              return  response(true);
+         }else{
+              return  response(false);
+         }
+    }
+
     public function logout(){
 
         Auth::guard('web')->logout();

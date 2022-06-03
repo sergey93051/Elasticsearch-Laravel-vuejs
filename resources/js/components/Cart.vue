@@ -267,11 +267,5 @@ export default {
   created() {
     this.mapCart = this.$store.getters.getCart;
   },
-  beforeRouteEnter(to, from, next) {
-    if (!window.Laravel.isLoggedin) {
-      this.$router.go({ name: "login" });
-    }
-    next();
-  },
 };
 </script>

@@ -139,12 +139,6 @@ export default {
       });
     },
   },
-   beforeRouteEnter(to, from, next) {
-    if (!window.Laravel.isLoggedin) {
-           this.$router.go({ name: "login" });
-    }
-    next();
-  },
 };
 </script>
 

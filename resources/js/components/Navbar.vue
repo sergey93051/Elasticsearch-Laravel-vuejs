@@ -8,9 +8,9 @@
         border-bottom border-dark
       "
     >
-      <div class="container">
-        <!-- <a class="navbar-brand" href="#!"><i class="fab fa-mdb fa-4x"></i></a> -->
-        <ul class="navbar-nav" v-if="!isLoggedIn">
+  <div class="container">
+        <!-- <a class="navbar-brand" href="#!"><i class="fab fa-mdb fa-4x"></i></a> -->      
+        <ul class="navbar-nav" v-if='!isLoggedIn'>
           <li class="nav-item">
             <router-link to="/login" class="nav-link">login</router-link>
           </li>
@@ -30,11 +30,7 @@
           <i class="fas fa-bars"></i>
         </button> -->
 
-        <div
-          v-if="isLoggedIn"
-          class="collapse navbar-collapse"
-          id="navbarSupportedContent"
-        >
+        <div v-else  class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <router-link to="/home" class="btn btn-dark ms-3"
@@ -54,10 +50,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!">Support</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#!">Sign In</a>
-            </li> -->
+            </li>         
             <button
               type="button"
               class="btn btn-outline-danger"
@@ -72,7 +65,7 @@
     <!-- Navbar -->
     <div class="mt-4"  >     
         <transition :name="transitionName"  mode="out-in">
-          <router-view @hope="onhope" />
+          <router-view @hope="onhope"  @loginSuccess='onLoginSuccess' />
         </transition>  
     </div>
   </div>
@@ -81,45 +74,59 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  props: ["name"],
-  emits: ["click:modelValue"],
+  props: ["isLogged"],
+  emits: ["click:modelValue"],   
+   
   data() {
     return {
-      isLoggedIn: false,
       thisCartsCount: 0,
-      transitionName: null
+      transitionName: null,
+      isLoggedIn:this.isLogged
     };
   },
   watch: {
   '$route'(to, from){
+      //  this.isLoggedIn = JSON.parse(sessionStorage.getItem('isAuth'));
       if(to.name=='product' || to.name=="animation"){
           this.transitionName = null;  
-       }else{
+       }else{        
           this.transitionName = "scale";  
        }   
    }
-  }, 
-  created() {
-    if (window.Laravel.isLoggedin) {
-      this.isLoggedIn = true;
-    }
-    this.thisCartsCount = this.$store.getters.getCartsCount;
+  },
+  created(){
+ 
+  },
+  onUnmounted() {    
+      // this.isLoggedIn = JSON.parse(sessionStorage.getItem('isAuth'));
   },
   computed: {
+    // isLoggedIn(){
+    //    var idred = async () => {
+    //         return await JSON.parse(sessionStorage.getItem('isAuth'));
+    //    } 
+    //    return idred;
+    // },
     ...mapGetters(["getCartsCount"]),
-  },
-  methods: {
-    onhope(val) {
+  }, 
+  methods: { 
+    onLoginSuccess(){
+        this.isLoggedIn = true;     
+    }, 
+    onhope(val) {    
       this.thisCartsCount = val;
     },
     logout(e) {
-      e.preventDefault();
+      e.preventDefault();  
+      sessionStorage.setItem('isAuth',false) 
+      this.isLoggedIn = false;
+         
       this.$axios.get("/sanctum/csrf-cookie").then((response) => {
         this.$axios
           .post("/api/logout")
           .then((response) => {
             if (response.data == 200) {
-              this.$router.go({ name: "login" });
+              this.$router.push({ name: "login" });
             } else {
               console.log(response);
             }
