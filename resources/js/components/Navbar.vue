@@ -117,16 +117,15 @@ export default {
       this.thisCartsCount = val;
     },
     logout(e) {
-      e.preventDefault();  
-      sessionStorage.setItem('isAuth',false) 
-      this.isLoggedIn = false;
-         
+      e.preventDefault();        
       this.$axios.get("/sanctum/csrf-cookie").then((response) => {
         this.$axios
           .post("/api/logout")
           .then((response) => {
             if (response.data == 200) {
-              this.$router.push({ name: "login" });
+                 sessionStorage.setItem('isAuth',false) 
+                 this.isLoggedIn = false;    
+                 this.$router.push({ name: "login" });
             } else {
               console.log(response);
             }

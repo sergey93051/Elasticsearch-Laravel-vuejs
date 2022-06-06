@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/8e1c33adc2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
 </head>
 <body>
     {{-- @dd(Auth::user()) --}}

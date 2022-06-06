@@ -10,12 +10,13 @@ const routes = [
     name: "login",
     path: '/login',
     component: () => import('./components/Login.vue'),
-    beforeEnter:checkAuth
+    beforeEnter:checkGuest
   },
   {
     name: "registr",
     path: '/register',
-    component: () => import('./components/Registr.vue')
+    component: () => import('./components/Registr.vue'),
+    beforeEnter:checkGuest
   },
   {
     name: "test",
@@ -60,6 +61,15 @@ const routes = [
     component: () => import('./components/NoPath.vue')
   },
 ]
+
+
+function checkGuest(to, from, next){
+  if (!JSON.parse(sessionStorage.getItem('isAuth'))) {
+      return next();
+   }
+    return next({ name: "home" }); 
+}
+
 function checkAuth(to, from, next) {
   if (to.name == 'home') {
     try {
@@ -76,14 +86,7 @@ function checkAuth(to, from, next) {
       sessionStorage.setItem('isAuth',false)
       return next({ name: 'login' })
     }
-  }
-  else if (to.name == "login") {
-     if (!JSON.parse(sessionStorage.getItem('isAuth'))) {
-         return next();
-     }
-      return next({ name: "home" });
-    
-  } else {
+  }else {
     if (!JSON.parse(sessionStorage.getItem('isAuth'))) {
       return next({ name: "login" });
     }
