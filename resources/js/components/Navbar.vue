@@ -86,8 +86,10 @@ export default {
   },
   watch: {
   '$route'(to, from){
-      //  this.isLoggedIn = JSON.parse(sessionStorage.getItem('isAuth'));
-      if(to.name=='product' || to.name=="animation"){
+       if(JSON.parse(sessionStorage.getItem('isAuth'))){
+            this.isLoggedIn = true;  
+       }
+       if(to.name=='product' || to.name=="animation"){
           this.transitionName = null;  
        }else{        
           this.transitionName = "scale";  
@@ -95,10 +97,10 @@ export default {
    }
   },
   created(){
- 
+      
   },
-  onUnmounted() {    
-      // this.isLoggedIn = JSON.parse(sessionStorage.getItem('isAuth'));
+  unmounted () {  
+       
   },
   computed: {
     // isLoggedIn(){

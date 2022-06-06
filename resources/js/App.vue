@@ -15,7 +15,7 @@ export default {
 
  data(){
    return {
-        sessionAuth:false
+        sessionAuth:''
    }
  },
  components:{

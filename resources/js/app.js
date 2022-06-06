@@ -14,6 +14,9 @@ import store from './store/store'
 const app = createApp(App)
 app.config.globalProperties.$axios = axios;
 window.axios.defaults.withCredentials = true;
+
+
+
 app.use(router)
 app.use(Vuex)
 app.use(store)

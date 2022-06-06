@@ -62,12 +62,8 @@ const routes = [
   },
 ]
 
-
 function checkGuest(to, from, next){
-  if (!JSON.parse(sessionStorage.getItem('isAuth'))) {
-      return next();
-   }
-    return next({ name: "home" }); 
+  return  JSON.parse(sessionStorage.getItem('isAuth'))==false ?  next() : next({ name: "home" })
 }
 
 function checkAuth(to, from, next) {
